@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(webchain-miner)
+project(cc-poolz-miner)
 
 option(WITH_LIBCPUID "Use Libcpuid" ON)
 option(WITH_AEON     "CryptoNight-Lite support" OFF)
