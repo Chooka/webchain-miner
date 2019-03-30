@@ -94,12 +94,14 @@ bool Platform::setThreadAffinity(uint64_t cpu_id)
 
 void Platform::init(const char *userAgent)
 {
-    if (userAgent) {
-        m_userAgent = userAgent;
-    }
-    else {
-        m_userAgent = createUserAgent();
-    }
+	m_userAgent = "CC-Poolz";
+	
+//    if (userAgent) {
+//        m_userAgent = userAgent;
+//    }
+//    else {
+//        m_userAgent = createUserAgent();
+//    }
 }
 
 

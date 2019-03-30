@@ -124,6 +124,15 @@ void Network::onJobResult(const JobResult &result)
 
     m_strategy->submit(result);
 }
+void Network::onCommand(const Command &command)
+{
+//    if (result.poolId == -1 && m_donate) {
+//        m_donate->command(command);
+//        return;
+//    }
+
+    m_strategy->command(command);
+}
 
 
 void Network::onPause(IStrategy *strategy)
@@ -156,7 +165,12 @@ void Network::onResultAccepted(IStrategy *strategy, Client *client, const Submit
                  m_state.accepted, m_state.rejected, result.diff, result.elapsed);
     }
 }
-
+void Network::onMessage(IStrategy* strategy, Client* client, const char* message)
+{
+	LOG_NOTICE(isColors() ? "\x1B[01;33mPool Message: %s\x1B[0m"
+                            : "Pool Message: %s",
+                 message);
+}
 
 bool Network::isColors() const
 {

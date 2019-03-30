@@ -32,7 +32,7 @@
 #include "api/NetworkState.h"
 #include "interfaces/IJobResultListener.h"
 #include "interfaces/IStrategyListener.h"
-
+#include "interfaces/ICommandListener.h"
 
 class IStrategy;
 class Url;
@@ -43,7 +43,7 @@ namespace xmrig {
 }
 
 
-class Network : public IJobResultListener, public IStrategyListener
+class Network : public IJobResultListener, public IStrategyListener, public ICommandListener
 {
 public:
   Network(xmrig::Controller *controller);
@@ -52,13 +52,17 @@ public:
   void connect();
   void stop();
 
+void onCommand(const Command &command) override;
+
 protected:
   void onActive(IStrategy *strategy, Client *client) override;
   void onJob(IStrategy *strategy, Client *client, const Job &job) override;
   void onJobResult(const JobResult &result) override;
+  
   void onPause(IStrategy *strategy) override;
   void onResultAccepted(IStrategy *strategy, Client *client, const SubmitResult &result, const char *error) override;
-
+  void onMessage(IStrategy* strategy, Client* client, const char* message) override;
+  
 private:
   constexpr static int kTickInterval = 1 * 1000;
 

@@ -51,6 +51,10 @@ int64_t SinglePoolStrategy::submit(const JobResult &result)
     return m_client->submit(result);
 }
 
+void SinglePoolStrategy::command(const Command &command)
+{
+	m_client->command(command);
+}
 
 void SinglePoolStrategy::connect()
 {
@@ -107,4 +111,8 @@ void SinglePoolStrategy::onLoginSuccess(Client *client)
 void SinglePoolStrategy::onResultAccepted(Client *client, const SubmitResult &result, const char *error)
 {
     m_listener->onResultAccepted(this, client, result, error);
+}
+void SinglePoolStrategy::onMessage(Client* client, const char* message)
+{
+	m_listener->onMessage(this,client,message);
 }

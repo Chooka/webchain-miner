@@ -59,6 +59,15 @@ int64_t FailoverStrategy::submit(const JobResult &result)
     return m_pools[m_active]->submit(result);
 }
 
+void FailoverStrategy::command(const Command &command)
+{
+	if (m_active == -1) {
+        return;
+    }
+
+    m_pools[m_active]->command(command);
+}
+
 
 void FailoverStrategy::connect()
 {
@@ -152,7 +161,10 @@ void FailoverStrategy::onResultAccepted(Client *client, const SubmitResult &resu
     m_listener->onResultAccepted(this, client, result, error);
 }
 
-
+void FailoverStrategy::onMessage(Client* client, const char* message)
+{
+	m_listener->onMessage(this,client,message);
+}
 void FailoverStrategy::add(const Pool &pool)
 {
     Client *client = new Client((int) m_pools.size(), Platform::userAgent(), this);

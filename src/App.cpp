@@ -158,7 +158,13 @@ void App::onConsoleCommand(char command)
             Workers::setEnabled(true);
         }
         break;
-
+	case 's':
+	case 'S':
+	
+		m_controller->network()->onCommand(Command{command: (char*)"getStats"});
+		
+		LOG_INFO(m_controller->config()->isColors() ? "\x1B[01;32mstats requested from pool" : "stats requested from pool");
+		break;
     case 3:
         LOG_WARN("Ctrl+C received, exiting");
         close();

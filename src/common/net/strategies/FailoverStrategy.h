@@ -48,6 +48,7 @@ public:
     inline bool isActive() const override  { return m_active >= 0; }
 
     int64_t submit(const JobResult &result) override;
+	void command(const Command &command) override;
     void connect() override;
     void resume() override;
     void stop() override;
@@ -58,7 +59,8 @@ protected:
     void onJobReceived(Client *client, const Job &job) override;
     void onLoginSuccess(Client *client) override;
     void onResultAccepted(Client *client, const SubmitResult &result, const char *error) override;
-
+	void onMessage(Client* client, const char* message) override;
+	
 private:
     void add(const Pool &pool);
 

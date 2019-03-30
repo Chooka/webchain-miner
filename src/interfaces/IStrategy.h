@@ -29,7 +29,7 @@
 
 
 class JobResult;
-
+class Command;
 
 class IStrategy
 {
@@ -38,6 +38,7 @@ public:
 
     virtual bool isActive() const                   = 0;
     virtual int64_t submit(const JobResult &result) = 0;
+	virtual void command(const Command &command) 	= 0;
     virtual void connect()                          = 0;
     virtual void resume()                           = 0;
     virtual void stop()                             = 0;

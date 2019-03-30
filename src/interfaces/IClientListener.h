@@ -42,6 +42,7 @@ public:
     virtual void onJobReceived(Client *client, const Job &job)                                   = 0;
     virtual void onLoginSuccess(Client *client)                                                  = 0;
     virtual void onResultAccepted(Client *client, const SubmitResult &result, const char *error) = 0;
+	virtual void onMessage(Client* client, const char* message) 			 = 0;
 };
 
 

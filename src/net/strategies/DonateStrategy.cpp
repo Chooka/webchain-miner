@@ -86,6 +86,10 @@ int64_t DonateStrategy::submit(const JobResult &result)
     return m_strategy->submit(result);
 }
 
+void DonateStrategy::command(const Command &command)
+{
+	return m_strategy->command(command);
+}
 
 void DonateStrategy::connect()
 {
@@ -131,6 +135,10 @@ void DonateStrategy::onPause(IStrategy *strategy)
 void DonateStrategy::onResultAccepted(IStrategy *strategy, Client *client, const SubmitResult &result, const char *error)
 {
     m_listener->onResultAccepted(this, client, result, error);
+}
+void DonateStrategy::onMessage(IStrategy* strategy, Client* client, const char* message)
+{
+	m_listener->onMessage(this,client,message);
 }
 
 

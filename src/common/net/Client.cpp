@@ -34,6 +34,7 @@
 #include "common/net/Client.h"
 #include "interfaces/IClientListener.h"
 #include "net/JobResult.h"
+#include "net/Command.h"
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
 #include "rapidjson/stringbuffer.h"
@@ -185,8 +186,8 @@ int64_t Client::submit(const JobResult &result)
     doc.AddMember("id",      m_sequence, allocator);
     doc.AddMember("jsonrpc", "2.0", allocator);
     doc.AddMember("method",  "submit", allocator);
-    doc.AddMember("worker",  StringRef(m_pool.workerId()), allocator);
-
+	doc.AddMember("worker",  StringRef(m_pool.workerId()), allocator);
+	
     Value params(kObjectType);
     params.AddMember("id",     StringRef(m_rpcId.data()), allocator);
     params.AddMember("job_id", StringRef(result.jobId.data()), allocator);
@@ -208,6 +209,25 @@ int64_t Client::submit(const JobResult &result)
     return send(doc);
 }
 
+void Client::command(const Command &command)
+{
+	using namespace rapidjson;
+	 
+    Document doc(kObjectType);
+    auto &allocator = doc.GetAllocator();
+
+    doc.AddMember("id",      m_sequence, allocator);
+    doc.AddMember("jsonrpc", "2.0", allocator);
+    doc.AddMember("method",  "command", allocator);
+    doc.AddMember("worker",  StringRef(m_pool.workerId()), allocator);
+
+    Value params(kObjectType);
+    params.AddMember("id",     StringRef(m_rpcId.data()), allocator);
+	params.AddMember("command", StringRef(command.command), allocator);
+	
+    doc.AddMember("params", params, allocator);
+    send(doc);
+}
 
 bool Client::close()
 {
@@ -408,6 +428,7 @@ int64_t Client::send(size_t size)
     }
 
     uv_buf_t buf = uv_buf_init(m_sendBuf, (unsigned int) size);
+	
 
     if (uv_try_write(m_stream, &buf, 1) < 0) {
         close();
@@ -596,6 +617,28 @@ void Client::parseNotification(const char *method, const rapidjson::Value &param
         return;
     }
 
+	if (strcmp(method, "message") == 0) {
+		//if(!params.IsObject()){
+			//LOG_WARN("bad params");
+			//return;
+		//}
+		
+		const char* msg = params.GetString();
+		m_listener->onMessage(this, msg);
+		
+		return;
+	}
+	if (strcmp(method, "stats") == 0) {
+		//if(!params.IsObject()){
+			//LOG_WARN("bad params");
+			//return;
+		//}
+		
+		const char* msg = params[0].GetString();
+		m_listener->onMessage(this, msg);
+		
+		return;
+	}
     LOG_WARN("[%s] unsupported method: \"%s\"", m_pool.url(), method);
 }
 

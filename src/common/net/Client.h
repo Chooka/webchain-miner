@@ -40,7 +40,7 @@
 
 class IClientListener;
 class JobResult;
-
+class Command;
 
 class Client
 {
@@ -60,6 +60,7 @@ public:
 
     bool disconnect();
     int64_t submit(const JobResult &result);
+	void command(const Command &command);
     void connect();
     void connect(const Pool &pool);
     void deleteLater();

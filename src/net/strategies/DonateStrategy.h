@@ -51,6 +51,7 @@ public:
     inline void resume() override          {}
 
     int64_t submit(const JobResult &result) override;
+	void command(const Command &command) override;
     void connect() override;
     void stop() override;
     void tick(uint64_t now) override;
@@ -60,7 +61,7 @@ protected:
     void onJob(IStrategy *strategy, Client *client, const Job &job) override;
     void onPause(IStrategy *strategy) override;
     void onResultAccepted(IStrategy *strategy, Client *client, const SubmitResult &result, const char *error) override;
-
+	void onMessage(IStrategy* strategy, Client* client, const char* message) override;
 private:
     void idle(uint64_t timeout);
     void suspend();
