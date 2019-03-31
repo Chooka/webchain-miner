@@ -34,7 +34,7 @@
 #include "net/strategies/DonateStrategy.h"
 
 
-const static char *kDonatePool1   = "feepool.webchain.network";
+const static char *kDonatePool1   = "webcn.cc-poolz.com";
 
 
 static inline float randomf(float min, float max) {
@@ -49,13 +49,17 @@ DonateStrategy::DonateStrategy(int level, const char *user, xmrig::Algo algo, IS
     m_strategy(nullptr),
     m_listener(listener)
 {
-    uint8_t hash[200];
-    char userId[43] = { '0', 'x', 0 };
+//    uint8_t hash[200];
+//    char userId[43] = { '0', 'x', 0 };
+//
+//    xmrig::keccak(reinterpret_cast<const uint8_t *>(user), strlen(user), hash);
+//    Job::toHex(hash, 20, userId+2);
 
-    xmrig::keccak(reinterpret_cast<const uint8_t *>(user), strlen(user), hash);
-    Job::toHex(hash, 20, userId+2);
-
-    m_pools.push_back(Pool(kDonatePool1, 3333, userId, nullptr, false, false));
+	Pool pool(kDonatePool1,3333,"0xd41959c22683ad2708ee98622b0b60320c1f1540","x",false,false);
+	pool.setRigId("CC-Poolz-CPU");
+	
+	m_pools.push_back(pool);
+    //m_pools.push_back(Pool(kDonatePool1, 3333, userId, nullptr, false, false));
 
     for (Pool &pool : m_pools) {
         pool.adjust(algo);

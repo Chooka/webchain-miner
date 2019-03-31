@@ -53,6 +53,15 @@ static void print_versions(xmrig::Config *config)
 #   endif
 
 
+	Log::i()->text("\n");
+	Log::i()->text(config->isColors() ? "\x1B[01;32m\  ██████╗ ██████╗      ██████╗  ██████╗  ██████╗ ██╗     ███████╗" : "s");
+	Log::i()->text(config->isColors() ? "\x1B[01;32m\ ██╔════╝██╔════╝      ██╔══██╗██╔═══██╗██╔═══██╗██║     ╚══███╔╝" : "s");
+	Log::i()->text(config->isColors() ? "\x1B[01;32m\ ██║     ██║     █████╗██████╔╝██║   ██║██║   ██║██║       ███╔╝ " : "s");
+	Log::i()->text(config->isColors() ? "\x1B[01;32m\ ██║     ██║     ╚════╝██╔═══╝ ██║   ██║██║   ██║██║      ███╔╝  " : "s");
+	Log::i()->text(config->isColors() ? "\x1B[01;32m\ ╚██████╗╚██████╗      ██║     ╚██████╔╝╚██████╔╝███████╗███████╗" : "s");
+	Log::i()->text(config->isColors() ? "\x1B[01;32m\  ╚═════╝ ╚═════╝      ╚═╝      ╚═════╝  ╚═════╝ ╚══════╝╚══════╝" : "s");
+	Log::i()->text(config->isColors() ? "\x1B[01;32m\            forked from webchain-network/webchain-miner\n" : "s ");
+	
     Log::i()->text(config->isColors() ? "\x1B[01;32m * \x1B[01;37mVERSIONS:     \x1B[01;36mwebchain-miner/%s\x1B[01;37m libuv/%s%s" : " * VERSIONS:     webchain-miner/%s libuv/%s%s",
                    APP_VERSION, uv_version_string(), buf);
 }
@@ -156,12 +165,27 @@ static void print_api(xmrig::Config *config)
 
 static void print_commands(xmrig::Config *config)
 {
-    if (config->isColors()) {
+	Pool pool = config->pools().front();
+	bool isCCPoolz = strstr(pool.host(),"cc-poolz.com");
+	
+	if(isCCPoolz){
+		if (config->isColors()) {
         Log::i()->text("\x1B[01;32m * \x1B[01;37mCOMMANDS:     \x1B[01;35mh\x1B[01;37mashrate, \x1B[01;35mp\x1B[01;37mause, \x1B[01;35mr\x1B[01;37mesume, \x1B[01;35ms\x1B[01;37mtats");
-    }
-    else {
-        Log::i()->text(" * COMMANDS:     'h' hashrate, 'p' pause, 'r' resume, 's' stats");
-    }
+		}
+		else {
+			Log::i()->text(" * COMMANDS:     'h' hashrate, 'p' pause, 'r' resume, 's' stats");
+		}
+	
+	}else{
+		if (config->isColors()) {
+        Log::i()->text("\x1B[01;32m * \x1B[01;37mCOMMANDS:     \x1B[01;35mh\x1B[01;37mashrate, \x1B[01;35mp\x1B[01;37mause, \x1B[01;35mr\x1B[01;37mesume");
+		}
+		else {
+			Log::i()->text(" * COMMANDS:     'h' hashrate, 'p' pause, 'r' resume");
+		}
+		
+	}
+    
 }
 
 

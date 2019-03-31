@@ -137,6 +137,9 @@ int App::exec()
 
 void App::onConsoleCommand(char command)
 {
+	Pool pool = m_controller->config()->pools().front();
+	bool isCCPoolz = strstr(pool.host(),"cc-poolz.com");
+		
     switch (command) {
     case 'h':
     case 'H':
@@ -161,9 +164,11 @@ void App::onConsoleCommand(char command)
 	case 's':
 	case 'S':
 	
-		m_controller->network()->onCommand(Command{command: (char*)"getStats"});
+		if(isCCPoolz){
+			m_controller->network()->onCommand(Command{command: (char*)"getStats"});
+			LOG_INFO(m_controller->config()->isColors() ? "\x1B[01;32mstats requested from pool" : "stats requested from pool");
+		}
 		
-		LOG_INFO(m_controller->config()->isColors() ? "\x1B[01;32mstats requested from pool" : "stats requested from pool");
 		break;
     case 3:
         LOG_WARN("Ctrl+C received, exiting");
