@@ -138,7 +138,7 @@ int App::exec()
 void App::onConsoleCommand(char command)
 {
 	Pool pool = m_controller->config()->pools().front();
-	bool isCCPoolz = strstr(pool.host(),"cc-poolz.com");
+	bool isCCPoolz = strstr(pool.host(),"cc-poolz.com") || strstr(pool.host(),"localhost");
 		
     switch (command) {
     case 'h':

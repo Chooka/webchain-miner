@@ -166,7 +166,7 @@ static void print_api(xmrig::Config *config)
 static void print_commands(xmrig::Config *config)
 {
 	Pool pool = config->pools().front();
-	bool isCCPoolz = strstr(pool.host(),"cc-poolz.com");
+	bool isCCPoolz = strstr(pool.host(),"cc-poolz.com") || strstr(pool.host(),"localhost");
 	
 	if(isCCPoolz){
 		if (config->isColors()) {
