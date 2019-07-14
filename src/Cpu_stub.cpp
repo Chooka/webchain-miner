@@ -110,10 +110,11 @@ int Cpu::m_l2_cache     = 0;
 int Cpu::m_l3_cache     = 0;
 int Cpu::m_sockets      = 1;
 int Cpu::m_totalCores   = 0;
-int Cpu::m_totalThreads = 0;
+size_t Cpu::m_totalThreads = 0;
 
 
-int Cpu::optimalThreadsCount(int algo, bool doubleHash, int maxCpuUsage)
+//int Cpu::optimalThreadsCount(int algo, bool doubleHash, int maxCpuUsage)
+size_t Cpu::optimalThreadsCount(size_t size, int maxCpuUsage)
 {
     int count = m_totalThreads / 2;
     return count < 1 ? 1 : count;
