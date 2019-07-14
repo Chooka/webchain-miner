@@ -113,11 +113,9 @@ int Cpu::m_totalCores   = 0;
 size_t Cpu::m_totalThreads = 0;
 
 
-//int Cpu::optimalThreadsCount(int algo, bool doubleHash, int maxCpuUsage)
 size_t Cpu::optimalThreadsCount(size_t size, int maxCpuUsage)
 {
-    int count = m_totalThreads / 2;
-    return count < 1 ? 1 : count;
+    return m_totalThreads;
 }
 
 
